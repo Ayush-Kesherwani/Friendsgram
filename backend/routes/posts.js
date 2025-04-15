@@ -1,0 +1,87 @@
+import { Router } from 'express';
+import multer, { diskStorage } from 'multer';
+import { extname } from 'path';
+const router = Router();
+import Post from '../models/Posts.js';
+
+// Set up multer storage
+const storage = diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/posts/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
+// POST route to handle post creation
+router.post('/', upload.single('media'), async (req, res) => {
+  try {
+    const { caption, userId } = req.body;
+    const file = req.file;
+
+    if (!file) return res.status(400).json({ error: 'Media file is required.' });
+
+    const mediaType = file.mimetype.startsWith('image') ? 'image' : 'video';
+
+    const newPost = new Post({
+      userId,
+      caption,
+      mediaPath: `/uploads/posts/${file.filename}`,
+      mediaType,
+    });
+
+    await newPost.save();
+    res.status(201).json(newPost);
+  } catch (error) {
+    console.error('Failed to create post:', error);
+    res.status(500).json({ error: 'Failed to create post.' });
+  }
+});
+
+router.get('/', async (req, res) => {
+  try {
+    const posts = await Post.find()
+  .sort({ createdAt: -1 })
+  .populate('userId', 'name profilePic');
+    res.json(posts);
+  } catch (error) {
+    console.error('Failed to fetch posts:', error);
+    res.status(500).json({ error: 'Failed to fetch posts.' });
+  }
+});
+
+router.post('/:id/like', async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      const userId = req.body.userId;
+  
+      if (!post.likes.includes(userId)) {
+        post.likes.push(userId);
+      } else {
+        post.likes = post.likes.filter(id => id !== userId);
+      }
+  
+      await post.save();
+      res.status(200).json({ likes: post.likes });
+    } catch (err) {
+      console.error('Error toggling like:', err);
+      res.status(500).json({ error: 'Failed to like post' });
+    }
+  });
+
+  router.get('/user/:userId', async (req, res) => {
+    const { userId } = req.params;
+  
+    try {
+      const posts = await Post.find({ userId }).sort({ createdAt: -1 });
+      res.status(200).json(posts);
+    } catch (error) {
+      console.error('Error fetching user posts:', error);
+      res.status(500).json({ message: 'Failed to fetch user posts' });
+    }
+  });
+
+export default router;
