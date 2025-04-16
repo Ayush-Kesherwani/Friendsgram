@@ -84,4 +84,30 @@ router.post('/:id/like', async (req, res) => {
     }
   });
 
+  router.delete("/:id", async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      if (!post) return res.status(404).json({ message: "Post not found" });
+  
+      await post.deleteOne();
+      res.status(200).json({ message: "Post deleted successfully" });
+    } catch (err) {
+      res.status(500).json({ message: "Error deleting post" });
+    }
+  });
+
+  router.put("/:id", async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      if (!post) return res.status(404).json({ message: "Post not found" });
+  
+      post.caption = req.body.caption;
+      await post.save();
+  
+      res.status(200).json({ message: "Post updated", post });
+    } catch (err) {
+      res.status(500).json({ message: "Error updating post" });
+    }
+  });
+
 export default router;

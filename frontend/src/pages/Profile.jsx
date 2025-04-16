@@ -32,6 +32,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user?._id) fetchPosts();
+    console.log("User Followers:", user.followers);
   }, [user]);
 
   const handleFileChange = (e) => {
@@ -49,7 +50,7 @@ const Profile = () => {
 
     try {
       await fetch(
-        `${import.meta.env.VITE_API_URL}/users/upload-profile-pic/${user?._id}`,
+        `${import.meta.env.VITE_API_URL}/api/users/upload-profile-pic/${user?._id}`,
         {
           method: "POST",
           body: formData,
@@ -153,7 +154,7 @@ const Profile = () => {
           <div className="bg-black rounded p-4 max-w-md w-full">
             <h2 className="text-xl font-bold mb-2">Followers</h2>
             <ul>
-              {user?.followers?.map((follower) => (
+              {user.followers.map((follower) => (
                 <li
                   key={follower._id}
                   className="flex text-white items-center gap-2 border-b py-2"
@@ -168,7 +169,7 @@ const Profile = () => {
                     to={`/profile/${follower._id}`}
                     className="hover:underline"
                   >
-                    {follower?.name}
+                    {follower?.name || 'Unname'}
                   </Link>
                 </li>
               ))}
@@ -188,7 +189,7 @@ const Profile = () => {
           <div className="bg-black rounded p-4 max-w-md w-full">
             <h2 className="text-xl font-bold mb-2">Following</h2>
             <ul>
-              {user.following?.map((followingUser) => (
+              {user.following.map((followingUser) => (
                 <li
                   key={followingUser._id}
                   className="flex items-center gap-2 border-b py-2"
@@ -203,7 +204,7 @@ const Profile = () => {
                     to={`/profile/${followingUser._id}`}
                     className="hover:underline"
                   >
-                    {followingUser.name}
+                    {followingUser.name || 'Unname'}
                   </Link>
                 </li>
               ))}

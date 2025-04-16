@@ -22,11 +22,21 @@ const storage = diskStorage({
 });
 const upload = multer({ storage });
 
-router.post(
-  "/upload-profile-pic/:id",
-  upload.single("profilePic"),
-  updateProfilePic
-);
+router.post('/upload-profile-pic/:id', upload.single('profilePic'), async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { profilePic: `/uploads/profilePics/${req.file.filename}` },
+      { new: true }
+    );
+    res.status(200).json({ message: "Profile picture updated", 
+      user,
+      imageUrl: `${process.env.BASE_URL}/uploads/profilePics/${req.file.filename}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to upload profile picture" });
+  }
+});
 
 router.get("/search", async (req, res) => {
   const query = req.query.q;

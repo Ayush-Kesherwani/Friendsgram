@@ -44,9 +44,7 @@ const Navbar = () => {
                 className="p-2 rounded border bg-transparent text-black dark:text-white"
               />
               <button onClick={handleSearch} className="bg-blue-500 text-white px-2 py-2 rounded-full hover:bg-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 50 50">
-                  <path d="M 21 3 C 11.6 3 4 10.6 4 20 s 7.6 17 17 17 s 17-7.6 17-17 S 30.4 3 21 3 Z m 0 2 c 8.3 0 15 6.7 15 15 s -6.7 15 -15 15 s -15-6.7 -15-15 s 6.7-15 15-15 Z"/>
-                </svg>
+                🔍
               </button>
               <Link to="/create-post" className="text-3xl dark:text-white">+</Link>
               <Link to="/profile">
@@ -74,8 +72,9 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden mt-4 flex flex-col gap-3 dark:text-white">
           <Link to="/" onClick={toggleMenu}>Home</Link>
+          <hr className="my-1" />
           {isLoggedIn ? (
-            <>
+            <><div className="flex">
               <input
                 type="text"
                 value={searchQuery}
@@ -84,19 +83,24 @@ const Navbar = () => {
                 className="p-2 rounded border bg-transparent text-black dark:text-white"
               />
               <button onClick={handleSearch} className="bg-blue-500 text-white px-2 py-2 rounded hover:bg-blue-600 w-fit">
-                Search
-              </button>
+                🔍
+              </button></div>
+              <hr className="my-1" />
               <Link to="/create-post" onClick={toggleMenu}>Create Post</Link>
+              <hr className="my-1" />
               <Link to="/profile" onClick={toggleMenu}>
                 <img
                   src={user?.profilePic ? `${import.meta.env.VITE_API_URL}${user.profilePic}` : "/nonpic.jpg"}
                   alt="Profile"
                   className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
                 />
+                profile
               </Link>
+              <hr className="my-1" />
               <button onClick={() => { logout(); toggleMenu(); }} className="text-red-500 w-fit">
                 Logout
               </button>
+              <hr className="my-1" />
             </>
           ) : (
             <>

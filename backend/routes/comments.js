@@ -16,9 +16,8 @@ router.post("/:postId/comments", async (req, res) => {
     comment = await comment.populate("userId", "name");
     
     res.status(201).json({ message: "Comment added", comment });
-    
-    res.status(201).json({ message: "Comment added", comment });
   } catch (err) {
+    console.error("Comment POST error:", err);
     res.status(500).json({ error: "Error adding comment" });
   }
 });

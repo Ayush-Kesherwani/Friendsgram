@@ -76,7 +76,14 @@ export const followUser = async (req, res) => {
     await currentUser.save();
     await userToFollow.save();
 
-    res.status(200).json({ message: isFollowing ? "User unfollowed" : "User followed" });
+    const updatedTargetUser = await User.findById(targetUserId)
+      .populate("followers", "name profilePic")
+      .populate("following", "name profilePic");
+
+    res.status(200).json({
+      message: isFollowing ? "User unfollowed" : "User followed",
+      user: updatedTargetUser,
+    });
   } catch (error) {
     console.error("Error in followUser:", error);
     res.status(500).json({ error: "Something went wrong" });
@@ -84,26 +91,30 @@ export const followUser = async (req, res) => {
 };
 
 export const unfollowUser = async (req, res) => {
-  const { id } = req.params;
+  const targetUserId = req.params.id;
   const currentUserId = req.user._id;
 
   try {
-    const userToUnfollow = await User.findById(id);
     const currentUser = await User.findById(currentUserId);
+    const targetUser = await User.findById(targetUserId);
 
-    if (!userToUnfollow || !currentUser) {
+    if (!currentUser || !targetUser) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    userToUnfollow.followers.pull(currentUserId);
-    currentUser.following.pull(id);
+    currentUser.following = currentUser.following.filter(
+      (id) => id.toString() !== targetUserId
+    );
+    targetUser.followers = targetUser.followers.filter(
+      (id) => id.toString() !== currentUserId
+    );
 
-    await userToUnfollow.save();
     await currentUser.save();
+    await targetUser.save();
 
-    res.status(200).json({ message: "User unfollowed" });
-  } catch (err) {
-    console.error("Error in unfollowUser:", err);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(200).json({ message: "Unfollowed", user: targetUser });
+  } catch (error) {
+    console.error("Unfollow error:", error);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };

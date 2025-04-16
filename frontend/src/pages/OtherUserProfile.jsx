@@ -25,8 +25,8 @@ const OtherUserProfile = () => {
         setUser(userRes.data);
         setPosts(postsRes.data);
 
-        if (currentUser?._id && Array.isArray(userRes.data.followers)) {
-          setIsFollowing(userRes.data.followers.includes(currentUser._id));
+        if (currentUser?.user?._id && Array.isArray(userRes.data.followers)) {
+          setIsFollowing(userRes.data.followers.includes(currentUser.user._id));
         }
 
         setLoading(false);
@@ -51,7 +51,7 @@ const OtherUserProfile = () => {
         isFollowing ? "unfollow" : "follow"
       }/${id}`;
 
-      await axios.put(
+      const res = await axios.put(
         url,
         {},
         {
@@ -62,19 +62,7 @@ const OtherUserProfile = () => {
       );
 
       setIsFollowing(!isFollowing);
-
-      setUser((prevUser) => {
-        const updatedFollowers = isFollowing
-          ? prevUser.followers.filter(
-              (followerId) => followerId !== currentUser.user._id
-            )
-          : [...prevUser.followers, currentUser.user._id];
-
-        return {
-          ...prevUser,
-          followers: updatedFollowers,
-        };
-      });
+      setUser(res.data.user);
     } catch (err) {
       console.error("Error following/unfollowing user:", err);
       alert("Failed to update follow status.");
@@ -88,10 +76,6 @@ const OtherUserProfile = () => {
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!user)
     return <p className="text-center mt-10 text-gray-500">User not found.</p>;
-
-  console.log("currentUser:", currentUser);
-  console.log("user:", user);
-  console.log("isOwnProfile:", isOwnProfile);
 
   return (
     <div className="max-w-4xl mx-auto p-4">

@@ -22,7 +22,7 @@ const App = () => {
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home currentUserId={user?._id} />} />
+        <Route path="/" element={<Home currentUserId={user?.user?._id} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />

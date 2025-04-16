@@ -20,12 +20,10 @@ export const register = async (req, res) => {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    res
-      .status(201)
-      .json({
-        token,
-        user: { _id: newUser._id, name: newUser.name, email: newUser.email },
-      });
+    res.status(201).json({
+      token,
+      user: { _id: newUser._id, name: newUser.name, email: newUser.email },
+    });
   } catch (error) {
     res.status(500).json({ message: "Registration failed", error });
   }
@@ -36,9 +34,13 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     // localStorage.setItem("user", JSON.stringify(user));
     // localStorage.setItem("token");
-
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    
+    const user = await User.findOne({ email })
+    .populate("followers", "name profilePic")
+    .populate("following", "name profilePic");
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)

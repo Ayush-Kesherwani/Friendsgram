@@ -1,4 +1,3 @@
-// src/pages/CreatePost.jsx
 import React, { useState } from 'react';
 
 const CreatePost = () => {
@@ -20,7 +19,7 @@ const CreatePost = () => {
     const formData = new FormData();
     formData.append('caption', caption);
     formData.append('media', file);
-    formData.append('userId', user._id);
+    formData.append('userId', user?.user?._id);
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/posts`, {

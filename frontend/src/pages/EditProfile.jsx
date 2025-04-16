@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
   const { user, setUser } = useAuth();
   const navigate = useNavigate();
+  const token = user?.token;
+  const userId = user?.user?._id;
 
   const [name, setName] = useState(user?.name || "");
   const [bio, setBio] = useState(user?.bio || "");
@@ -16,41 +18,32 @@ const EditProfile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user?.token;
-    const userId = user?.user?._id;
-    console.log("user ", user);
-    try {
-      const res = await fetch(
-        `http://localhost:4000/api/users/edit/${userId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ name, bio }),
-        }
-      );
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error("Update failed:", errorText);
-        alert("Update failed: " + res.statusText);
-        return;
-      }
-
+  
+    const res = await fetch(`http://localhost:4000/api/users/edit/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name, bio }),
+    });
+  
+    if (res.ok) {
       const updatedUser = await res.json();
-
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-
-      alert("Profile updated successfully!");
+  
+      const newUserData = {
+        user: updatedUser,
+        token: token,
+      };
+  
+      localStorage.setItem("user", JSON.stringify(newUserData));
+      setUser(newUserData);
+  
+      alert("Profile updated!");
       navigate("/profile");
-    } catch (error) {
+    } else {
+      const error = await res.json();
       console.error("Update failed:", error);
-      alert("Update failed: " + error.message);
     }
   };
 

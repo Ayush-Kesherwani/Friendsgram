@@ -4,10 +4,17 @@ import axios from 'axios';
 const Feed = ({ currentUserId, post }) => {
   const [likes, setLikes] = useState(post.likes || []);
 
+  const token = localStorage.getItem("token")
+
   const toggleLike = async () => {
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/posts/${post._id}/like`, {
         userId: currentUserId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       setLikes(res.data.likes);
     } catch (err) {

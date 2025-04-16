@@ -7,6 +7,8 @@ const Home = ({ currentUserId }) => {
   const [comments, setComments] = useState({});
   const [newComments, setNewComments] = useState({});
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -63,6 +65,9 @@ const Home = ({ currentUserId }) => {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/posts/${postId}/comments/${commentId}`,
         {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           data: { userId: currentUserId },
         }
       );
