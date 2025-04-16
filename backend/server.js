@@ -22,6 +22,9 @@ app.use('/posts', postRoutes)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.get("/", (req, res) => {
+  res.send("FriendsGram API is live");
+});
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

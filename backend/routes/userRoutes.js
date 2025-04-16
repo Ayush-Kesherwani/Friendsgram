@@ -6,6 +6,11 @@ import { protect } from "../middleware/authMiddleware.js";
 import User from "../models/User.js";
 
 const router = Router();
+
+router.get("/", (req, res) => {
+  res.send("Users route works");
+});
+
 router.get("/ping", (req, res) => {
   console.log("✅ /ping route hit");
   res.json({ message: "Ping success" });
