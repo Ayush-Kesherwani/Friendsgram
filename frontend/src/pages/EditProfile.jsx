@@ -19,7 +19,7 @@ const EditProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
   
-    const res = await fetch(`http://localhost:4000/api/users/edit/${userId}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/edit/${userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
