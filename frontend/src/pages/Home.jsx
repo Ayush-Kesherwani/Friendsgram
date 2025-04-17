@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Feed from "./Feed";
+import { AuthProvider } from "../context/AuthContext";
 
 const Home = ({ currentUserId }) => {
+  const { user } = AuthProvider();
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState({});
   const [newComments, setNewComments] = useState({});
@@ -83,6 +85,19 @@ const Home = ({ currentUserId }) => {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
+      {!user && (
+        <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white w-full py-3 mb-4">
+          <p className="animate-scroll text-center font-semibold text-lg">
+            Hello! user, please first login to access, or register if a new
+            user.
+          </p>
+        </div>
+      )}
+
+      <h1 className="text-4xl font-bold">Welcome to FriendsGram 👋</h1>
+      {!user && (
+        <p className="mt-4 text-gray-400">Login or register to continue</p>
+      )}
       <h1 className="text-2xl font-bold mb-6 text-center">Feed</h1>
       {posts.length === 0 ? (
         <p className="text-gray-500 text-center">No posts yet</p>
