@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Feed from "./Feed";
-import { AuthProvider } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
+import './Home.css';
 
 const Home = ({ currentUserId }) => {
-  const { user } = AuthProvider();
+  const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState({});
   const [newComments, setNewComments] = useState({});
@@ -30,9 +32,10 @@ const Home = ({ currentUserId }) => {
         console.error("Failed to fetch posts or comments:", err);
       }
     };
-
-    fetchPosts();
-  }, []);
+    if (user) {
+      fetchPosts();
+    }
+  }, [user]);
 
   const handleCommentChange = (postId, text) => {
     setNewComments({ ...newComments, [postId]: text });
@@ -85,109 +88,122 @@ const Home = ({ currentUserId }) => {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
-      {!currentUserId && (
-        <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white w-full py-3 mb-4">
-          <p className="animate-scroll text-center font-semibold text-lg">
-            Hello! user, please first login to access, or register if a new
-            user.
-          </p>
-        </div>
-      )}
-
-      <h1 className="text-4xl font-bold">Welcome to FriendsGram 👋</h1>
-      {!user && (
-        <p className="mt-4 text-gray-400">Login or register to continue</p>
-      )}
-      <h1 className="text-2xl font-bold mb-6 text-center">Feed</h1>
-      {posts.length === 0 ? (
-        <p className="text-gray-500 text-center">No posts yet</p>
-      ) : (
-        <div className="space-y-6">
-          {posts.map((post) => (
-            <div
-              key={post._id}
-              className="bg-white dark:bg-gray-800 p-4 rounded shadow-md border dark:border-gray-700"
-            >
-              <div className="flex items-center gap-3 mb-2">
-                <img
-                  src={
-                    post.userId?.profilePic
-                      ? `${import.meta.env.VITE_API_URL}${
-                          post.userId.profilePic
-                        }`
-                      : "/nonpic.jpg"
-                  }
-                  alt="User"
-                  className="w-10 h-10 rounded-full object-cover border border-gray-300"
-                />
-                <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                  {post.userId?.name || "Unknown User"}
-                </p>
-              </div>
-              <p className="mb-2 text-gray-700 dark:text-gray-200">
-                {post.caption}
-              </p>
-              {post.mediaType === "image" ? (
-                <img
-                  src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
-                  alt="post"
-                  className="w-full max-h-[500px] object-cover rounded"
-                />
-              ) : (
-                <video
-                  src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
-                  controls
-                  className="w-full max-h-[500px] rounded"
-                />
-              )}
-              <Feed currentUserId={currentUserId} post={post} />
-              <p className="mt-2 text-sm text-gray-500">
-                Posted on {new Date(post.createdAt).toLocaleString()}
-              </p>
-
-              {/* Comment Section */}
-              <div className="mt-4">
-                <input
-                  type="text"
-                  value={newComments[post._id] || ""}
-                  onChange={(e) =>
-                    handleCommentChange(post._id, e.target.value)
-                  }
-                  placeholder="Write a comment..."
-                  className="w-full p-2 rounded border dark:bg-gray-700 dark:text-white"
-                />
-                <button
-                  onClick={() => handleCommentSubmit(post._id)}
-                  className="mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+      {user ? (
+        <>
+          <h1 className="text-2xl font-bold mb-6 text-center">Feed</h1>
+          {posts.length === 0 ? (
+            <p className="text-gray-500 text-center">No posts yet</p>
+          ) : (
+            <div className="space-y-6">
+              {posts.map((post) => (
+                <div
+                  key={post._id}
+                  className="bg-white dark:bg-gray-800 p-4 rounded shadow-md border dark:border-gray-700"
                 >
-                  Comment
-                </button>
-                <div className="mt-3 space-y-1 text-sm text-gray-700 dark:text-gray-300">
-                  {(comments[post._id] || []).map((c, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between"
+                  <div className="flex items-center gap-3 mb-2">
+                    <img
+                      src={
+                        post.userId?.profilePic
+                          ? `${import.meta.env.VITE_API_URL}${
+                              post.userId.profilePic
+                            }`
+                          : "/nonpic.jpg"
+                      }
+                      alt="User"
+                      className="w-10 h-10 rounded-full object-cover border border-gray-300"
+                    />
+                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      {post.userId?.name || "Unknown User"}
+                    </p>
+                  </div>
+                  <p className="mb-2 text-gray-700 dark:text-gray-200">
+                    {post.caption}
+                  </p>
+                  {post.mediaType === "image" ? (
+                    <img
+                      src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
+                      alt="post"
+                      className="w-full max-h-[500px] object-cover rounded"
+                    />
+                  ) : (
+                    <video
+                      src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
+                      controls
+                      className="w-full max-h-[500px] rounded"
+                    />
+                  )}
+                  <Feed currentUserId={currentUserId} post={post} />
+                  <p className="mt-2 text-sm text-gray-500">
+                    Posted on {new Date(post.createdAt).toLocaleString()}
+                  </p>
+
+                  {/* Comment Section */}
+                  <div className="mt-4">
+                    <input
+                      type="text"
+                      value={newComments[post._id] || ""}
+                      onChange={(e) =>
+                        handleCommentChange(post._id, e.target.value)
+                      }
+                      placeholder="Write a comment..."
+                      className="w-full p-2 rounded border dark:bg-gray-700 dark:text-white"
+                    />
+                    <button
+                      onClick={() => handleCommentSubmit(post._id)}
+                      className="mt-2 text-sm bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                     >
-                      <p>
-                        <span className="font-medium text-blue-600 dark:text-blue-400">
-                          {c.userId?.name || "Anonymous"}:
-                        </span>{" "}
-                        {c.text}
-                      </p>
-                      {String(c.userId?._id) === String(currentUserId) && (
-                        <button
-                          onClick={() => handleDeleteComment(c._id, post._id)}
-                          className="text-xs text-red-500 ml-4"
+                      Comment
+                    </button>
+                    <div className="mt-3 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+                      {(comments[post._id] || []).map((c, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between"
                         >
-                          Delete
-                        </button>
-                      )}
+                          <p>
+                            <span className="font-medium text-blue-600 dark:text-blue-400">
+                              {c.userId?.name || "Anonymous"}:
+                            </span>{" "}
+                            {c.text}
+                          </p>
+                          {String(c.userId?._id) === String(currentUserId) && (
+                            <button
+                              onClick={() =>
+                                handleDeleteComment(c._id, post._id)
+                              }
+                              className="text-xs text-red-500 ml-4"
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          )}
+        </>
+      ) : (
+        <div>
+          <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white w-full py-3 mb-4">
+            <p className="animate-scroll text-center font-semibold text-lg">
+              Hello! user, please first login to access, or register if a new
+              user.
+            </p>
+          </div>
+          <h1 className="text-4xl font-bold">Welcome to FriendsGram 👋</h1>
+          <p className="mt-4 text-gray-400">
+            <Link to="/login" className="text-blue-400 underline">
+              Login
+            </Link>{" "}
+            or{" "}
+            <Link to="/register" className="text-blue-400 underline">
+              Register
+            </Link>{" "}
+            to continue
+          </p>
         </div>
       )}
     </div>
