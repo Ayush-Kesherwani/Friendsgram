@@ -3,7 +3,7 @@ import axios from "axios";
 import Feed from "./Feed";
 import { AuthProvider } from "../context/AuthContext";
 
-const Home = ({ currentUserId } = {}) => {
+const Home = ({ currentUserId }) => {
   const { user } = AuthProvider();
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState({});
@@ -85,7 +85,7 @@ const Home = ({ currentUserId } = {}) => {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
-      {!user && (
+      {!currentUserId && (
         <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white w-full py-3 mb-4">
           <p className="animate-scroll text-center font-semibold text-lg">
             Hello! user, please first login to access, or register if a new
