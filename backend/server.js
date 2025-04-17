@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import postRoutes from './routes/posts.js';
 import commentRoutes from './routes/comments.js';
 import messageRoutes from './routes/message.js';
+import verifyRoute from './routes/verify.js';
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ const __dirname = path.dirname(__filename);
 app.get("/", (req, res) => {
   res.send("FriendsGram API is live");
 });
+app.use('/api/verify', verifyRoute);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
