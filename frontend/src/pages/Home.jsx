@@ -3,7 +3,7 @@ import axios from "axios";
 import Feed from "./Feed";
 import { AuthProvider } from "../context/AuthContext";
 
-const Home = ({ currentUserId }) => {
+const Home = ({ currentUserId } = {}) => {
   const { user } = AuthProvider();
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState({});
