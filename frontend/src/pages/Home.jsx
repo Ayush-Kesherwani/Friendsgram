@@ -187,23 +187,28 @@ const Home = ({ currentUserId }) => {
         </>
       ) : (
         <div>
-          <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white w-full py-3 mb-4">
-            <p className="animate-scroll text-center font-semibold text-lg">
-              Hello! user, please first login to access, or register if a new
-              user.
-            </p>
-          </div>
-          <h1 className="text-4xl font-bold">Welcome to FriendsGram 👋</h1>
-          <p className="mt-4 text-gray-400">
-            <Link to="/login" className="text-blue-400 underline">
-              Login
-            </Link>{" "}
-            or{" "}
-            <Link to="/register" className="text-blue-400 underline">
-              Register
-            </Link>{" "}
-            to continue
-          </p>
+          <div className="bg-red-600 text-white px-4 py-2 mb-6 rounded shadow">
+          Hello! user, please first login to access, or register if a new user.
+        </div>
+
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          Welcome to <span className="text-blue-400">FriendsGram</span> 👋
+        </h1>
+
+        <p className="text-lg text-gray-300 mb-6">
+          Connect, chat, and share with your friends.
+        </p>
+
+        <div className="space-x-4">
+          <Link to="/login" className="text-blue-500 hover:underline">
+            Login
+          </Link>
+          <span className="text-gray-400">or</span>
+          <Link to="/register" className="text-blue-500 hover:underline">
+            Register
+          </Link>
+          <span className="text-gray-400">to continue</span>
+        </div>
         </div>
       )}
     </div>
