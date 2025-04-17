@@ -201,6 +201,13 @@ const Home = ({ currentUserId }) => {
           Connect, chat, and share with your friends.
         </p>
 
+        <p className="text-lg text-gray-300 mb-2">
+          FriendsGram is your go-to social app to connect, chat, and share moments with your friends.
+        </p>
+        <p className="text-md text-gray-400 mb-6">
+          Discover new people, post your thoughts, and keep the conversation going.
+        </p>
+
         <div className="space-x-4">
           <Link to="/login" className="text-blue-500 hover:underline">
             Login
