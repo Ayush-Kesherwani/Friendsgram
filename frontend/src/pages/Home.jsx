@@ -187,8 +187,10 @@ const Home = ({ currentUserId }) => {
         </>
       ) : (
         <div>
-          <div className="bg-red-600 text-white px-4 py-2 mb-6 rounded shadow">
+          <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white px-4 py-2 mb-6 rounded shadow">
+            <p className="animate-scroll text-center font-semibold text-lg" >
           Hello! user, please first login to access, or register if a new user.
+          </p>
         </div>
 
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
