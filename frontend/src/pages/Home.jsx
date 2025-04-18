@@ -217,7 +217,7 @@ const Home = ({ currentUserId }) => {
           <Link to="/register" className="text-blue-500 hover:underline">
             Register
           </Link>
-          <span className="text-black light:text-gray-300">to continue</span>
+          <span className="text-black dark:text-gray-300">to continue</span>
         </div>
         </div>
       )}
