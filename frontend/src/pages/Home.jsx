@@ -197,14 +197,14 @@ const Home = ({ currentUserId }) => {
           Welcome to <span className="text-blue-400">FriendsGram</span> 👋
         </h1>
 
-        <p className="text-lg text-black dark:text-gray-300 mb-6">
+        <p className="text-l mb-6">
           Connect, chat, and share with your friends.
         </p>
 
-        <p className="text-lg text-black dark:text-gray-300 mb-2">
+        <p className="text-lg mb-2">
           FriendsGram is your go-to social app to connect, chat, and share moments with your friends.
         </p>
-        <p className="text-md text-black dark:text-gray-300 mb-6">
+        <p className="text-md mb-6">
           Discover new people, post your thoughts, and keep the conversation going.
         </p>
 
@@ -213,11 +213,11 @@ const Home = ({ currentUserId }) => {
           <Link to="/login" className="text-blue-500 hover:underline">
             Login
           </Link>
-          <span className="text-black dark:text-gray-300">or</span>
+          <span className="">or</span>
           <Link to="/register" className="text-blue-500 hover:underline">
             Register
           </Link>
-          <span className="text-black dark:text-gray-300">to continue</span>
+          <span className="">to continue</span>
         </div>
         </div>
       )}
