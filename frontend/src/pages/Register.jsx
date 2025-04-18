@@ -60,7 +60,7 @@ const Register = () => {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded shadow">
       {step === 1 && (
         <>
-          <h2 className="text-2xl text-black font-bold mb-4">Step 1: Enter Email</h2>
+          <h2 className="text-2xl text-white font-bold mb-4">Step 1: Enter Email</h2>
           <input
             type="email"
             placeholder="Enter your email"
@@ -79,7 +79,7 @@ const Register = () => {
 
       {step === 2 && (
         <>
-          <h2 className="text-2xl text-black font-bold mb-4">Step 2: Enter Code</h2>
+          <h2 className="text-2xl text-white font-bold mb-4">Step 2: Enter Code</h2>
           <input
             type="text"
             placeholder="Enter 6-digit code"
@@ -98,7 +98,7 @@ const Register = () => {
 
       {step === 3 && verified && (
         <>
-          <h2 className="text-2xl text-black font-bold mb-4">Step 3: Complete Registration</h2>
+          <h2 className="text-2xl text-white font-bold mb-4">Step 3: Complete Registration</h2>
           <input
             type="text"
             placeholder="Your name"
