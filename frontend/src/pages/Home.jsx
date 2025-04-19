@@ -112,9 +112,9 @@ const Home = ({ currentUserId }) => {
                       alt="User"
                       className="w-10 h-10 rounded-full object-cover border border-gray-300"
                     />
-                    <Link to={`/profile/${user._id}`} className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                       {post.userId?.name || "Unknown User"}
-                    </Link>
+                    </p>
                   </div>
                   <p className="mb-2 text-gray-700 dark:text-gray-200">
                     {post.caption}
