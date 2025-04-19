@@ -8,7 +8,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [verified, setVerified] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,6 +21,7 @@ const Register = () => {
   }, [user, navigate]);
 
   const handleSendCode = async () => {
+    setLoading(true);
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/verify/send-code`, {
         email,
@@ -29,10 +30,13 @@ const Register = () => {
       setStep(2);
     } catch (error) {
       alert("Failed to send code");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleVerifyCode = async () => {
+    setLoading(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/verify/verify-code`,
@@ -47,10 +51,13 @@ const Register = () => {
       }
     } catch (error) {
       alert("Verification failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRegister = async () => {
+    setLoading(true);
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/register`,
@@ -60,6 +67,8 @@ const Register = () => {
       navigate("/login");
     } catch (err) {
       alert("Registration failed. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,7 +88,7 @@ const Register = () => {
             onClick={handleSendCode}
             className="w-full bg-blue-600 text-white py-2 rounded"
           >
-            Send Verification Code
+            {loading ? "Sending..." : "Send Verification Code"}
           </button>
         </>
       )}
@@ -98,7 +107,7 @@ const Register = () => {
             onClick={handleVerifyCode}
             className="w-full bg-green-600 text-white py-2 rounded"
           >
-            Verify Code
+            {loading ? "Verifing..." : "Verify Code"}
           </button>
         </>
       )}
@@ -124,7 +133,7 @@ const Register = () => {
             onClick={handleRegister}
             className="w-full bg-purple-600 text-white py-2 rounded"
           >
-            Register
+            {loading ? "Loading..." : "Register"}
           </button>
         </>
       )}
