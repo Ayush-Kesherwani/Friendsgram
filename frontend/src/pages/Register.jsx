@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const { user } = useEffect();
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
@@ -12,6 +13,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user?.user?._id) {
+      navigate('/profile', { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleSendCode = async () => {
     try {
