@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 import Post from '../models/Posts.js';
-import upload from '../middlewares/cloudinaryUpload.js';
+import upload from '../middleware/cloudinaryUpload.js';
 
 router.post('/', upload.single('media'), async (req, res) => {
   try {
