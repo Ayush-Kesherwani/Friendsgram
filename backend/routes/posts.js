@@ -1,6 +1,4 @@
 import { Router } from 'express';
-import multer, { diskStorage } from 'multer';
-import { extname } from 'path';
 const router = Router();
 import Post from '../models/Posts.js';
 import upload from '../middlewares/cloudinaryUpload.js';
