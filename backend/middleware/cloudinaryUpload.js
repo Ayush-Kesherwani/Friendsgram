@@ -13,8 +13,8 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'friendsgram/posts',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'mp4'],
-    transformation: [{ width: 800, height: 800, crop: 'limit' }],
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'webp'],
+    transformation: [{ width: 800, height: 1000, crop: 'limit' }],
   },
 });
 
