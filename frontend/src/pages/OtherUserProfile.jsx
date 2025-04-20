@@ -88,6 +88,7 @@ const OtherUserProfile = () => {
         <div>
           <h2 className="text-xl font-bold">{user.name}</h2>
           <p className="text-sm text-gray-500">{user.email}</p>
+          <p className="text-sm text-gray-500">{user.bio}</p>
           <div className="text-sm text-gray-500 mt-1">
             <span>{user.followers?.length || 0} Followers</span> ·{" "}
             <span>{user.following?.length || 0} Following</span>
