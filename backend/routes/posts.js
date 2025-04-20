@@ -15,7 +15,7 @@ router.post('/', upload.single('media'), async (req, res) => {
     const newPost = new Post({
       userId,
       caption,
-      mediaPath: file.path, // cloudinary returns full URL
+      mediaPath: file.path,
       mediaType,
     });
 
