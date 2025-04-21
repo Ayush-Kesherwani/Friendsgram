@@ -1,7 +1,12 @@
 import { Router } from "express";
-import { getUserById, updateProfilePic, followUser, unfollowUser, updateProfile } from "../controllers/userController.js";
+import {
+  getUserById,
+  updateProfilePic,
+  followUser,
+  unfollowUser,
+  updateProfile,
+} from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
-import upload from "../middleware/cloudinaryUpload.js";
 import User from "../models/User.js";
 
 const router = Router();
@@ -15,23 +20,36 @@ router.get("/ping", (req, res) => {
   res.json({ message: "Ping success" });
 });
 
-router.put('/upload-profile-pic/:id', upload.single('profilePic'), async (req, res) => {
-  try {
-    console.log("Uploaded file:", req.file);
-    const userId = req.params.id;
-    const result = await cloudinary.uploader.upload(req.file.path);
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { profilePicture: result.secure_url },
-      { new: true }
-    );
+const upload = multer({ dest: "uploads/" });
 
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Failed to upload profile picture' });
+router.put(
+  "/upload-profile-pic/:id",
+  upload.single("profilePicture"),
+  async (req, res) => {
+    try {
+      console.log(req.file);
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        { profilePicture: result.secure_url },
+        { new: true }
+      );
+
+      res
+        .status(200)
+        .json({ message: "Profile picture updated", user: updatedUser });
+    } catch (err) {
+      console.error("Error uploading profile picture:", err);
+      res
+        .status(500)
+        .json({
+          message: "Failed to update profile picture",
+          error: err.message,
+        });
+    }
   }
-});
+);
 
 router.get("/search", async (req, res) => {
   const query = req.query.q;
@@ -58,8 +76,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.put("/edit/:id", protect, updateProfile);
-router.put('/follow/:id', protect, followUser);
-router.put('/unfollow/:id', protect, unfollowUser);
+router.put("/follow/:id", protect, followUser);
+router.put("/unfollow/:id", protect, unfollowUser);
 
 router.get("/:id", getUserById);
 
