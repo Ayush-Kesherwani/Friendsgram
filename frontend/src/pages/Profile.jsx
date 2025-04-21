@@ -108,7 +108,7 @@ const Profile = () => {
           onClick={handleImageClick}
         >
           <img
-            src={user?.profilePic || "/nonpic.jpg"}
+            src={user?.profilePicture || "/nonpic.jpg"}
             alt="Profile"
             className="w-full h-full rounded-full object-cover border-4 border-blue-500 shadow-lg"
           />
@@ -156,7 +156,7 @@ const Profile = () => {
                 >
                   <img
                     src={`${import.meta.env.VITE_API_URL}${
-                      follower?.profilePic
+                      follower?.profilePicture
                     }`}
                     className="w-8 h-8 rounded-full"
                   />
@@ -191,7 +191,7 @@ const Profile = () => {
                 >
                   <img
                     src={`${import.meta.env.VITE_API_URL}${
-                      followingUser.profilePic
+                      followingUser.profilePicture
                     }`}
                     className="w-8 h-8 rounded-full"
                   />

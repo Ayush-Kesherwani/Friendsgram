@@ -15,7 +15,7 @@ router.get("/ping", (req, res) => {
   res.json({ message: "Ping success" });
 });
 
-router.put('/upload-profile-pic/:id', upload.single('file'), async (req, res) => {
+router.put('/upload-profile-pic/:id', upload.single('profilePic'), async (req, res) => {
   try {
     const userId = req.params.id;
 
