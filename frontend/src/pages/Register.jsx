@@ -16,8 +16,10 @@ const Register = () => {
 
   useEffect(() => {
     if (user?.user?._id) {
-      navigate('/profile', { replace: true });
+      navigate("/profile", { replace: true });
     }
+    const storedEmail = localStorage.getItem("pendingEmail");
+    if (storedEmail) setEmail(storedEmail);
   }, [user, navigate]);
 
   const handleSendCode = async () => {
@@ -28,6 +30,7 @@ const Register = () => {
       });
       alert("Verification code sent to your email");
       setStep(2);
+      localStorage.setItem("pendingEmail", email);
     } catch (error) {
       alert("Failed to send code");
     } finally {
@@ -57,6 +60,10 @@ const Register = () => {
   };
 
   const handleRegister = async () => {
+    if (!name || !email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
     setLoading(true);
     try {
       const res = await axios.post(
@@ -76,7 +83,9 @@ const Register = () => {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded shadow">
       {step === 1 && (
         <>
-          <h2 className="text-2xl text-white font-bold mb-4">Step 1: Enter Email</h2>
+          <h2 className="text-2xl text-white font-bold mb-4">
+            Step 1: Enter Email
+          </h2>
           <input
             type="email"
             placeholder="Enter your email"
@@ -95,7 +104,9 @@ const Register = () => {
 
       {step === 2 && (
         <>
-          <h2 className="text-2xl text-white font-bold mb-4">Step 2: Enter Code</h2>
+          <h2 className="text-2xl text-white font-bold mb-4">
+            Step 2: Enter Code
+          </h2>
           <input
             type="text"
             placeholder="Enter 6-digit code"
@@ -114,7 +125,9 @@ const Register = () => {
 
       {step === 3 && verified && (
         <>
-          <h2 className="text-2xl text-white font-bold mb-4">Step 3: Complete Registration</h2>
+          <h2 className="text-2xl text-white font-bold mb-4">
+            Step 3: Complete Registration
+          </h2>
           <input
             type="text"
             placeholder="Your name"
