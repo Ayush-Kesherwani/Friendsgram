@@ -108,7 +108,7 @@ const Profile = () => {
           onClick={handleImageClick}
         >
           <img
-            src={user?.profilePicture || "/nonpic.jpg"}
+            src={user?.user?.profilePicture || "/nonpic.jpg"}
             alt="Profile"
             className="w-full h-full rounded-full object-cover border-4 border-blue-500 shadow-lg"
           />
