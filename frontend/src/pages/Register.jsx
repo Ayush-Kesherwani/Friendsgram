@@ -66,13 +66,15 @@ const Register = () => {
     }
     setLoading(true);
     try {
+      const finalEmail = email || localStorage.getItem("pendingEmail");
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/register`,
-        { name, email, password }
+        { name, email:finalEmail, password }
       );
       alert("Registration successful!");
       navigate("/login");
     } catch (err) {
+      console.log("Registration error:", err.response?.data || err.message);
       alert("Registration failed. Try again.");
     } finally {
       setLoading(false);
