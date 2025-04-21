@@ -52,7 +52,7 @@ const Profile = () => {
       await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/upload-profile-pic/${user?._id}`,
         {
-          method: "POST",
+          method: "PUT",
           body: formData,
         }
       );

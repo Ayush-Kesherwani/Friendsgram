@@ -17,6 +17,7 @@ router.get("/ping", (req, res) => {
 
 router.put('/upload-profile-pic/:id', upload.single('profilePic'), async (req, res) => {
   try {
+    console.log("Uploaded file:", req.file);
     const userId = req.params.id;
 
     const updatedUser = await User.findByIdAndUpdate(
