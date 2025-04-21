@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getUserById, updateProfilePic, followUser, unfollowUser, updateProfile } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import upload from "../middleware/cloudinaryUpload.js";
 import User from "../models/User.js";
 
 const router = Router();
