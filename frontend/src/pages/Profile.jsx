@@ -108,12 +108,7 @@ const Profile = () => {
           onClick={handleImageClick}
         >
           <img
-            src={
-              preview ||
-              (user?.profilePic
-                ? `${import.meta.env.VITE_API_URL}${user.profilePic}`
-                : "/nonpic.jpg")
-            }
+            src={user?.profilePic || "/nonpic.jpg"}
             alt="Profile"
             className="w-full h-full rounded-full object-cover border-4 border-blue-500 shadow-lg"
           />
