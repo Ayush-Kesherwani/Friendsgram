@@ -116,6 +116,7 @@ const Register = () => {
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
+          <p className="text-red-500 text-sm">Note: Check spam</p>
           <button
             onClick={handleVerifyCode}
             className="w-full bg-green-600 text-white py-2 rounded"

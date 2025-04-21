@@ -1,6 +1,4 @@
 import { Router } from "express";
-import multer, { diskStorage } from "multer";
-import { extname } from "path";
 import { getUserById, updateProfilePic, followUser, unfollowUser, updateProfile } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import User from "../models/User.js";
@@ -16,30 +14,20 @@ router.get("/ping", (req, res) => {
   res.json({ message: "Ping success" });
 });
 
-// Multer config
-const storage = diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/profilePics/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + extname(file.originalname));
-  },
-});
-const upload = multer({ storage });
-
-router.post('/upload-profile-pic/:id', upload.single('profilePic'), async (req, res) => {
+router.put('/upload-profile-pic/:id', upload.single('profilePic'), async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { profilePic: `/uploads/profilePics/${req.file.filename}` },
+    const userId = req.params.id;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { profilePicture: req.file.path },
       { new: true }
     );
-    res.status(200).json({ message: "Profile picture updated", 
-      user,
-      imageUrl: `${process.env.BASE_URL}/uploads/profilePics/${req.file.filename}` });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to upload profile picture" });
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to upload profile picture' });
   }
 });
 
