@@ -57,7 +57,6 @@ const Profile = () => {
         }
       );
       alert("Profile picture updated");
-      window.location.reload();
     } catch (error) {
       console.error("Upload failed:", error);
     }
