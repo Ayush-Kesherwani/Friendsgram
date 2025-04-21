@@ -19,10 +19,10 @@ router.put('/upload-profile-pic/:id', upload.single('profilePic'), async (req, r
   try {
     console.log("Uploaded file:", req.file);
     const userId = req.params.id;
-
+    const result = await cloudinary.uploader.upload(req.file.path);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { profilePicture: req.file.path },
+      { profilePicture: result.secure_url },
       { new: true }
     );
 
