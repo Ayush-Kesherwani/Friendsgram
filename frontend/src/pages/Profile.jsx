@@ -46,14 +46,11 @@ const Profile = () => {
   const handleUpload = async () => {
     if (!selectedFile) return;
     const formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    formData.append("folder", "profile");
+    formData.append("profilePic", selectedFile);
 
     try {
       await fetch(
-        `${import.meta.env.VITE_API_URL}/api/users/upload-profile-pic/${
-          user?._id
-        }`,
+        `${import.meta.env.VITE_API_URL}/api/users/upload-profile-pic/${user?._id}`,
         {
           method: "PUT",
           body: formData,
@@ -172,7 +169,7 @@ const Profile = () => {
                     to={`/profile/${follower._id}`}
                     className="hover:underline"
                   >
-                    {follower?.name || "Unname"}
+                    {follower?.name || 'Unname'}
                   </Link>
                 </li>
               ))}
@@ -207,7 +204,7 @@ const Profile = () => {
                     to={`/profile/${followingUser._id}`}
                     className="hover:underline"
                   >
-                    {followingUser.name || "Unname"}
+                    {followingUser.name || 'Unname'}
                   </Link>
                 </li>
               ))}
