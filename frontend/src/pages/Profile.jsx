@@ -52,7 +52,7 @@ const Profile = () => {
       await fetch(
         `${import.meta.env.VITE_API_URL}/api/users/upload-profile-pic/${user?._id}`,
         {
-          method: "PUT",
+          method: "POST",
           body: formData,
         }
       );
@@ -108,7 +108,12 @@ const Profile = () => {
           onClick={handleImageClick}
         >
           <img
-            src={user?.user?.profilePicture || "/nonpic.jpg"}
+            src={
+              preview ||
+              (user?.profilePic
+                ? `${import.meta.env.VITE_API_URL}${user.profilePic}`
+                : "/nonpic.jpg")
+            }
             alt="Profile"
             className="w-full h-full rounded-full object-cover border-4 border-blue-500 shadow-lg"
           />
@@ -156,7 +161,7 @@ const Profile = () => {
                 >
                   <img
                     src={`${import.meta.env.VITE_API_URL}${
-                      follower?.profilePicture
+                      follower?.profilePic
                     }`}
                     className="w-8 h-8 rounded-full"
                   />
@@ -191,7 +196,7 @@ const Profile = () => {
                 >
                   <img
                     src={`${import.meta.env.VITE_API_URL}${
-                      followingUser.profilePicture
+                      followingUser.profilePic
                     }`}
                     className="w-8 h-8 rounded-full"
                   />
@@ -247,13 +252,13 @@ const Profile = () => {
                 </p>
                 {post.mediaType === "image" ? (
                   <img
-                    src={post.mediaPath}
+                    src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
                     alt="post"
                     className="w-full max-h-[500px] object-cover rounded"
                   />
                 ) : (
                   <video
-                    src={post.mediaPath}
+                    src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
                     controls
                     className="w-full max-h-[500px] rounded"
                   />

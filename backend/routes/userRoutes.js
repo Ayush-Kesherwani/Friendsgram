@@ -1,11 +1,7 @@
 import { Router } from "express";
-import {
-  getUserById,
-  updateProfilePic,
-  followUser,
-  unfollowUser,
-  updateProfile,
-} from "../controllers/userController.js";
+import multer, { diskStorage } from "multer";
+import { extname } from "path";
+import { getUserById, updateProfilePic, followUser, unfollowUser, updateProfile } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import User from "../models/User.js";
 
@@ -20,36 +16,31 @@ router.get("/ping", (req, res) => {
   res.json({ message: "Ping success" });
 });
 
-const upload = multer({ dest: "uploads/" });
+const storage = diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/profilePics/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + extname(file.originalname));
+  },
+});
+const upload = multer({ storage });
 
-router.put(
-  "/upload-profile-pic/:id",
-  upload.single("profilePicture"),
-  async (req, res) => {
-    try {
-      console.log(req.file);
-      const result = await cloudinary.uploader.upload(req.file.path);
-
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        { profilePicture: result.secure_url },
-        { new: true }
-      );
-
-      res
-        .status(200)
-        .json({ message: "Profile picture updated", user: updatedUser });
-    } catch (err) {
-      console.error("Error uploading profile picture:", err);
-      res
-        .status(500)
-        .json({
-          message: "Failed to update profile picture",
-          error: err.message,
-        });
-    }
+router.post('/upload-profile-pic/:id', upload.single('profilePic'), async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { profilePic: `/uploads/profilePics/${req.file.filename}` },
+      { new: true }
+    );
+    res.status(200).json({ message: "Profile picture updated", 
+      user,
+      imageUrl: `${process.env.BASE_URL}/uploads/profilePics/${req.file.filename}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to upload profile picture" });
   }
-);
+});
 
 router.get("/search", async (req, res) => {
   const query = req.query.q;
