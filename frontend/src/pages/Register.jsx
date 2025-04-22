@@ -29,7 +29,7 @@ const Register = () => {
       alert("Verification code sent to your email");
       setStep(2);
     } catch (error) {
-      alert("Failed to send code");
+      alert("Failed to send verification code");
       localStorage.setItem("pendingEmail", email);
     } finally {
       setLoading(false);
