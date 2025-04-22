@@ -47,7 +47,7 @@ const CreatePost = () => {
 
   return (
     <div className="max-w-xl mx-auto p-4 bg-white bg-transparent shadow rounded">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Create a Post</h2>
+      <h2 className="text-2xl text-black font-semibold mb-4 text-center">Create a Post</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           className="w-full p-2 border dark:border-gray-700 rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
