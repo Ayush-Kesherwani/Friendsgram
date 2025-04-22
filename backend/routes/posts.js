@@ -1,22 +1,8 @@
 import { Router } from 'express';
-import multer, { diskStorage } from 'multer';
-import { extname } from 'path';
 const router = Router();
 import Post from '../models/Posts.js';
+import upload from '../middleware/cloudinaryUpload.js';
 
-// Set up multer storage
-const storage = diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/posts/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage });
-
-// POST route to handle post creation
 router.post('/', upload.single('media'), async (req, res) => {
   try {
     const { caption, userId } = req.body;
@@ -29,7 +15,7 @@ router.post('/', upload.single('media'), async (req, res) => {
     const newPost = new Post({
       userId,
       caption,
-      mediaPath: `/uploads/posts/${file.filename}`,
+      mediaPath: file.path,
       mediaType,
     });
 

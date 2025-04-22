@@ -16,7 +16,6 @@ router.get("/ping", (req, res) => {
   res.json({ message: "Ping success" });
 });
 
-// Multer config
 const storage = diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/profilePics/");
@@ -68,8 +67,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.put("/edit/:id", protect, updateProfile);
-router.put('/follow/:id', protect, followUser);
-router.put('/unfollow/:id', protect, unfollowUser);
+router.put("/follow/:id", protect, followUser);
+router.put("/unfollow/:id", protect, unfollowUser);
 
 router.get("/:id", getUserById);
 

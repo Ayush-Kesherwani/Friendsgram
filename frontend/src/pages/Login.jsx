@@ -1,13 +1,26 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+=======
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+>>>>>>> 32498628766418ba6b61ec991e3b17054b378932
 
 const Login = () => {
   const { login, user } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user?.user?._id) {
+      navigate("/profile", { replace: true });
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     if (user?.user?._id) {
@@ -25,30 +38,36 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');     
+    setError("");
+    setLoading(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
-      
+
       if (res.ok) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data));
         login(data);
-        navigate('/profile');
+        navigate("/profile");
       } else {
-        setError(data.message || 'Login failed');
+        setError(data.message || "Login failed");
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError('Error logging in');
+      setError("Error logging in");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,8 +92,11 @@ const Login = () => {
           className="w-full p-2 border rounded text-black"
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
-          Login
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

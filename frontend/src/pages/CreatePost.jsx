@@ -4,6 +4,7 @@ const CreatePost = () => {
   const [caption, setCaption] = useState('');
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
 
   const handleFileChange = (e) => {
@@ -14,6 +15,7 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (!caption) return alert('Nothing to post. Are you ok?');
 
     const formData = new FormData();
@@ -38,12 +40,14 @@ const CreatePost = () => {
     } catch (error) {
       console.error('Error uploading post:', error);
       alert('An error occurred');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-xl mx-auto p-4 bg-white bg-transparent shadow rounded">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Create a Post</h2>
+      <h2 className="text-2xl text-black font-semibold mb-4 text-center">Create a Post</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <textarea
           className="w-full p-2 border dark:border-gray-700 rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
@@ -77,7 +81,7 @@ const CreatePost = () => {
           type="submit"
           className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
         >
-          Post
+          {loading ? "Posting..." : "Post"}
         </button>
       </form>
     </div>
