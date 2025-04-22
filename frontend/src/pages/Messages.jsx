@@ -1,17 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Messages = ({ receiverId }) => {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
+  const lastMessageIdRef = useRef(null); // 🔁 To track the last message
+
+  // 🔔 Ask for notification permission once on mount
+  useEffect(() => {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  const showNotification = (msg) => {
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(`New message from ${msg.sender.name}`, {
+        body: msg.content,
+      });
+    }
+  };
 
   const fetchMessages = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/messages/${
-          user.user._id
-        }/${receiverId}`,
+        `${import.meta.env.VITE_API_URL}/api/messages/${user.user._id}/${receiverId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -19,27 +33,36 @@ const Messages = ({ receiverId }) => {
         }
       );
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch messages");
-      }
+      if (!res.ok) throw new Error("Failed to fetch messages");
 
       const data = await res.json();
 
-      // Validate response is array
       if (Array.isArray(data)) {
+        const latestMsg = data[data.length - 1];
+
+        // 🔔 Check if new message arrived & not from current user
+        if (
+          latestMsg &&
+          latestMsg._id !== lastMessageIdRef.current &&
+          latestMsg.sender._id !== user.user._id
+        ) {
+          showNotification(latestMsg);
+          lastMessageIdRef.current = latestMsg._id;
+        }
+
         setMessages(data);
       } else {
-        console.error("Unexpected response:", data);
-        setMessages([]); // fallback
+        setMessages([]);
       }
     } catch (err) {
       console.error("Error fetching messages:", err.message);
-      setMessages([]); // Avoid map error
+      setMessages([]);
     }
   };
 
   const sendMessage = async () => {
     if (!content.trim()) return;
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/messages`, {
         method: "POST",
@@ -57,16 +80,15 @@ const Messages = ({ receiverId }) => {
       const newMessage = await res.json();
       setMessages((prev) => [...prev, newMessage]);
       setContent("");
+      lastMessageIdRef.current = newMessage._id; // ⏱ Update tracker
     } catch (err) {
       console.error("Error sending message:", err);
     }
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchMessages();
-    }, 1000);
-
+    fetchMessages(); // initial fetch
+    const interval = setInterval(fetchMessages, 1000);
     return () => clearInterval(interval);
   }, [user, receiverId]);
 
@@ -83,15 +105,13 @@ const Messages = ({ receiverId }) => {
                 isSender
                   ? "bg-blue-500 text-white self-end ml-auto max-w-[75%]"
                   : "bg-gray-200 text-black self-start mr-auto max-w-[75%]"
-                }`}
-                >
+              }`}
+            >
               <p className="text-sm">
                 {msg.sender.name}: {msg.content}
               </p>
               <p className="text-xs text-right">
-                {msg.createedAt
-                  ? new Date(msg.createdAt).toLocaleTimeString()
-                  : ""}
+                {msg.createdAt ? new Date(msg.createdAt).toLocaleTimeString() : ""}
               </p>
             </div>
           );

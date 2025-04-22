@@ -90,7 +90,7 @@ const Navbar = () => {
               <hr className="my-1" />
               <Link to="/profile" onClick={toggleMenu}>
                 <img
-                  src={user?.profilePic ? `${import.meta.env.VITE_API_URL}${user.profilePic}` : "/nonpic.jpg"}
+                  src={user?.profilePic ? `${import.meta.env.VITE_API_URL}${user?.profilePic}` : "/nonpic.jpg"}
                   alt="Profile"
                   className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
                 />
