@@ -252,13 +252,13 @@ const Profile = () => {
                 </p>
                 {post.mediaType === "image" ? (
                   <img
-                    src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
+                    src={post.mediaPath}
                     alt="post"
                     className="w-full max-h-[500px] object-cover rounded"
                   />
                 ) : (
                   <video
-                    src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
+                    src={post.mediaPath}
                     controls
                     className="w-full max-h-[500px] rounded"
                   />
