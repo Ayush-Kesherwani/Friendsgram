@@ -3,10 +3,6 @@ import axios from "axios";
 import Feed from "./Feed";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-=======
-import './Home.css';
->>>>>>> 32498628766418ba6b61ec991e3b17054b378932
 
 const Home = ({ currentUserId }) => {
   const { user } = useAuth();
@@ -124,21 +120,13 @@ const Home = ({ currentUserId }) => {
                   </p>
                   {post.mediaType === "image" ? (
                     <img
-<<<<<<< HEAD
                       src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
-=======
-                      src={post.mediaPath}
->>>>>>> 32498628766418ba6b61ec991e3b17054b378932
                       alt="post"
                       className="w-full max-h-[500px] object-cover rounded"
                     />
                   ) : (
                     <video
-<<<<<<< HEAD
                       src={`${import.meta.env.VITE_API_URL}${post.mediaPath}`}
-=======
-                      src={post.mediaPath}
->>>>>>> 32498628766418ba6b61ec991e3b17054b378932
                       controls
                       className="w-full max-h-[500px] rounded"
                     />
@@ -198,7 +186,6 @@ const Home = ({ currentUserId }) => {
         </>
       ) : (
         <div>
-<<<<<<< HEAD
           <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white w-full py-3 mb-4">
             <p className="animate-scroll text-center font-semibold text-lg">
               Hello! user, please first login to access, or register if a new
@@ -216,40 +203,6 @@ const Home = ({ currentUserId }) => {
             </Link>{" "}
             to continue
           </p>
-=======
-          <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white px-4 py-2 mb-6 rounded shadow">
-            <p className="animate-scroll text-center font-semibold text-lg" >
-          Hello! user, please first login to access, or register if a new user.
-          </p>
-        </div>
-
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Welcome to <span className="text-blue-400">FriendsGram</span> 👋
-        </h1>
-
-        <p className="text-l mb-6">
-          Connect, chat, and share with your friends.
-        </p>
-
-        <p className="text-lg mb-2">
-          FriendsGram is your go-to social app to connect, chat, and share moments with your friends.
-        </p>
-        <p className="text-md mb-6">
-          Discover new people, post your thoughts, and keep the conversation going.
-        </p>
-
-
-        <div className="space-x-4">
-          <Link to="/login" className="text-blue-500 hover:underline">
-            Login
-          </Link>
-          <span className="">or</span>
-          <Link to="/register" className="text-blue-500 hover:underline">
-            Register
-          </Link>
-          <span className="">to continue</span>
-        </div>
->>>>>>> 32498628766418ba6b61ec991e3b17054b378932
         </div>
       )}
     </div>
