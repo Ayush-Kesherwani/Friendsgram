@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-=======
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
->>>>>>> 32498628766418ba6b61ec991e3b17054b378932
 
 const Login = () => {
   const { login, user } = useAuth();
