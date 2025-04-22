@@ -1,5 +1,3 @@
-
-import React, { useState } from "react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,14 +8,11 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [verified, setVerified] = useState(false);
-
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
-  const handleSendCode = async () => {
 
   useEffect(() => {
     if (user?.user?._id) {
@@ -30,9 +25,7 @@ const Register = () => {
   const handleSendCode = async () => {
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/verify/send-code`, {
-        email,
-      });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/verify/send-code`, { email });
       alert("Verification code sent to your email");
       setStep(2);
     } catch (error) {
@@ -46,10 +39,10 @@ const Register = () => {
   const handleVerifyCode = async () => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/verify/verify-code`,
-        { email, code }
-      );
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/verify/verify-code`, {
+        email,
+        code,
+      });
       if (res.data.success) {
         alert("Email verified successfully!");
         setVerified(true);
@@ -65,17 +58,17 @@ const Register = () => {
   };
 
   const handleRegister = async () => {
-      setLoading(true);
+    setLoading(true);
     try {
       const finalEmail = email || localStorage.getItem("pendingEmail");
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/register`,
-        { name, email:finalEmail, password }
-      );
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+        name,
+        email: finalEmail,
+        password,
+      });
       alert("Registration successful!");
       navigate("/login");
     } catch (err) {
-      alert("Registration failed. Try again.");
       console.log("Registration error:", err.response?.data || err.message);
       alert("Registration failed. Try again.");
     } finally {
@@ -87,10 +80,7 @@ const Register = () => {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded shadow">
       {step === 1 && (
         <>
-          <h2 className="text-2xl font-bold mb-4">Step 1: Enter Email</h2>
-          <h2 className="text-2xl text-white font-bold mb-4">
-            Step 1: Enter Email
-          </h2>
+          <h2 className="text-2xl text-white font-bold mb-4">Step 1: Enter Email</h2>
           <input
             type="email"
             placeholder="Enter your email"
@@ -102,7 +92,6 @@ const Register = () => {
             onClick={handleSendCode}
             className="w-full bg-blue-600 text-white py-2 rounded"
           >
-            Send Verification Code
             {loading ? "Sending..." : "Send Verification Code"}
           </button>
         </>
@@ -110,34 +99,29 @@ const Register = () => {
 
       {step === 2 && (
         <>
-          <h2 className="text-2xl font-bold mb-4">Step 2: Enter Code</h2>
-          <h2 className="text-2xl text-white font-bold mb-4">
-            Step 2: Enter Code
-          </h2>
+          <h2 className="text-2xl text-white font-bold mb-4">Step 2: Enter Code</h2>
           <input
             type="text"
             placeholder="Enter 6-digit code"
-            className="w-full mb-4 p-2 border rounded dark:bg-gray-700 dark:text-white"
+            className="w-full mb-2 p-2 border rounded dark:bg-gray-700 dark:text-white"
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
-          <p className="text-red-500 text-sm">Note: Check spams, if not recived mail.</p>
+          <p className="text-red-500 text-sm mb-2">
+            Note: Check spam folder if you didn't receive the email.
+          </p>
           <button
             onClick={handleVerifyCode}
             className="w-full bg-green-600 text-white py-2 rounded"
           >
-            Verify Code
-            {loading ? "Verifing..." : "Verify Code"}
+            {loading ? "Verifying..." : "Verify Code"}
           </button>
         </>
       )}
 
       {step === 3 && verified && (
         <>
-          <h2 className="text-2xl font-bold mb-4">Step 3: Complete Registration</h2>
-          <h2 className="text-2xl text-white font-bold mb-4">
-            Step 3: Complete Registration
-          </h2>
+          <h2 className="text-2xl text-white font-bold mb-4">Step 3: Complete Registration</h2>
           <input
             type="text"
             placeholder="Your name"
@@ -156,13 +140,12 @@ const Register = () => {
             onClick={handleRegister}
             className="w-full bg-purple-600 text-white py-2 rounded"
           >
-            Register
-            {loading ? "Loading..." : "Register"}
+            {loading ? "Registering..." : "Register"}
           </button>
         </>
       )}
     </div>
   );
-}};
+};
 
 export default Register;
