@@ -5,9 +5,8 @@ const Messages = ({ receiverId }) => {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
-  const lastMessageIdRef = useRef(null); // 🔁 To track the last message
+  const lastMessageIdRef = useRef(null);
 
-  // 🔔 Ask for notification permission once on mount
   useEffect(() => {
     if ("Notification" in window && Notification.permission !== "granted") {
       Notification.requestPermission();
