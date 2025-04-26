@@ -11,9 +11,17 @@ router.post('/', upload.single('media'), async (req, res) => {
 
     if (!file) return res.status(400).json({ error: 'Media file is required.' });
 
-    const result = await cloudinary.uploader.upload(file.path, {
-      resource_type: "auto",
-      folder: "friendsgram_posts",
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        {
+          resource_type: "auto",
+          folder: "friendsgram_posts",
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      ).end(file.buffer);
     });
 
     const mediaType = file.mimetype.startsWith('image') ? 'image' : 'video';

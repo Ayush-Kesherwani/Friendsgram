@@ -40,7 +40,6 @@ const CreatePost = () => {
 
       alert('Post uploaded successfully!');
 
-      // Clear form
       setCaption('');
       setFile(null);
       setPreview(null);
