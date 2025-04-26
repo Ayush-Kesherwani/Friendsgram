@@ -3,7 +3,7 @@ const router = Router();
 import Post from '../models/Posts.js';
 import upload from '../middleware/cloudinaryUpload.js';
 
-router.post('/', upload.single('media'), async (req, res) => {
+router.post('/posts', upload.single('media'), async (req, res) => {
   try {
     const { caption, userId } = req.body;
     const file = req.file;
