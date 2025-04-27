@@ -3,12 +3,7 @@ const router = Router();
 import Post from '../models/Posts.js';
 import upload from '../middleware/cloudinaryUpload.js';
 import { v2 as cloudinary } from 'cloudinary';
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import cloudinary from '../config/cloudinary.js';
 
 router.post('/', upload.single('media'), async (req, res) => {
   try {
