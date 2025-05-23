@@ -42,6 +42,28 @@ router.post('/upload-profile-pic/:id', upload.single('profilePic'), async (req, 
   }
 });
 
+router.post('/change-password', protect, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findById(req.user.id);
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Current password is incorrect' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
+    await user.save();
+
+    res.json({ message: 'Password changed successfully' });
+  } catch (err) {
+    console.error('Change password error', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 router.get("/search", async (req, res) => {
   const query = req.query.q;
 

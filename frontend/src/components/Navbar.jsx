@@ -54,6 +54,7 @@ const Navbar = () => {
                   className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
                 />
               </Link>
+              <Link to="/changepassword" className="text-3xl dark:text-white">Change Pasword</Link>
               <button onClick={logout} className="text-sm text-red-500">Logout</button>
             </>
           )}

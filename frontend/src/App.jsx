@@ -15,6 +15,7 @@ import OtherUserProfile from './pages/OtherUserProfile';
 import MessagesWrapper from './pages/MessagesWrapper';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import ChangePassword from './pages/ChangePassword';
 
 const App = () => {
   const { theme } = useTheme();
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/messages/:id" element={<MessagesWrapper />} />
         <Route path="/adminlogin" element={<AdminLogin />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
+        <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
