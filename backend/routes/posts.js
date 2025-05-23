@@ -2,6 +2,13 @@ import { Router } from 'express';
 const router = Router();
 import Post from '../models/Posts.js';
 import upload from '../middleware/cloudinaryUpload.js';
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 router.post('/', upload.single('media'), async (req, res) => {
   try {
@@ -10,12 +17,25 @@ router.post('/', upload.single('media'), async (req, res) => {
 
     if (!file) return res.status(400).json({ error: 'Media file is required.' });
 
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        {
+          resource_type: "auto",
+          folder: "friendsgram_posts",
+        },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      ).end(file.buffer);
+    });
+
     const mediaType = file.mimetype.startsWith('image') ? 'image' : 'video';
 
     const newPost = new Post({
       userId,
       caption,
-      mediaPath: file.path,
+      mediaPath: result.secure_url,
       mediaType,
     });
 

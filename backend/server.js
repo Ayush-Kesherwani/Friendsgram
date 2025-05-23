@@ -9,16 +9,18 @@ import { fileURLToPath } from 'url';
 import postRoutes from './routes/posts.js';
 import commentRoutes from './routes/comments.js';
 import messageRoutes from './routes/message.js';
-import verifyRoute from './routes/verify.js';
+import verifyRoutes from './routes/verify.js';
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://friendsgram.vercel.app',
+  credentials: true,
+}));
 app.use(express.json());
-app.use('/api/verify', verifyRoute);
 app.use('/posts', postRoutes)
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +29,7 @@ const __dirname = path.dirname(__filename);
 app.get("/", (req, res) => {
   res.send("FriendsGram API is live");
 });
+app.use('/api/verify', verifyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

@@ -49,7 +49,7 @@ const Navbar = () => {
               <Link to="/create-post" className="text-3xl dark:text-white">+</Link>
               <Link to="/profile">
                 <img
-                  src={user?.profilePic ? `${import.meta.env.VITE_API_URL}${user.profilePicture}` : "/nonpic.jpg"}
+                  src={user?.profilePic ? `${import.meta.env.VITE_API_URL}${user?.profilePic}` : "/nonpic.jpg"}
                   alt="Profile"
                   className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
                 />
@@ -91,7 +91,7 @@ const Navbar = () => {
               <hr className="my-1" />
               <Link to="/profile" onClick={toggleMenu}>
                 <img
-                  src={user?.profilePic ? `${import.meta.env.VITE_API_URL}${user.profilePic}` : "/nonpic.jpg"}
+                  src={user?.profilePic ? `${import.meta.env.VITE_API_URL}${user?.profilePic}` : "/nonpic.jpg"}
                   alt="Profile"
                   className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
                 />

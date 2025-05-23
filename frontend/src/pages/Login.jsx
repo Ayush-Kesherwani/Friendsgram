@@ -16,6 +16,20 @@ const Login = () => {
     }
   }, [user, navigate]);
 
+  useEffect(() => {
+    if (user?.user?._id) {
+      navigate('/profile', { replace: true });
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async () => {
+    const res = await axios.post(".../login", { email, password });
+    const userData = res.data.user;
+  
+    localStorage.setItem("token", res.data.token);
+    login(userData);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");

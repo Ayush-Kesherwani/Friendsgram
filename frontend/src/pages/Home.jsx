@@ -3,7 +3,6 @@ import axios from "axios";
 import Feed from "./Feed";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import './Home.css';
 
 const Home = ({ currentUserId }) => {
   const { user } = useAuth();
@@ -187,38 +186,34 @@ const Home = ({ currentUserId }) => {
         </>
       ) : (
         <div>
-          <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white px-4 py-2 mb-6 rounded shadow">
-            <p className="animate-scroll text-center font-semibold text-lg" >
-          Hello! user, please first login to access, or register if a new user.
+          <div className="overflow-hidden whitespace-nowrap bg-red-600 text-white w-full py-3 mb-4">
+            <p className="animate-scroll text-center font-semibold text-lg">
+              Hello! user, please first login to access, or register if a new
+              user.
+            </p>
+          </div>
+          <h1 className="text-4xl font-bold">Welcome to FriendsGram 👋</h1>
+          <p className="text-lg  mb-6">
+            Connect, chat, and share with your friends.
           </p>
-        </div>
-
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Welcome to <span className="text-blue-400">FriendsGram</span> 👋
-        </h1>
-
-        <p className="text-l mb-6">
-          Connect, chat, and share with your friends.
-        </p>
-
-        <p className="text-lg mb-2">
-          FriendsGram is your go-to social app to connect, chat, and share moments with your friends.
-        </p>
-        <p className="text-md mb-6">
-          Discover new people, post your thoughts, and keep the conversation going.
-        </p>
-
-
-        <div className="space-x-4">
-          <Link to="/login" className="text-blue-500 hover:underline">
-            Login
-          </Link>
-          <span className="">or</span>
-          <Link to="/register" className="text-blue-500 hover:underline">
-            Register
-          </Link>
-          <span className="">to continue</span>
-        </div>
+          <p className="text-lg  mb-2">
+            FriendsGram is your go-to social app to connect, chat, and share
+            moments with your friends.
+          </p>
+          <p className="text-md mb-6">
+            Discover new people, post your thoughts, and keep the conversation
+            going.
+          </p>
+          <p className="mt-4">
+            <Link to="/login" className="text-blue-400 underline">
+              Login
+            </Link>{" "}
+            or{" "}
+            <Link to="/register" className="text-blue-400 underline">
+              Register
+            </Link>{" "}
+            to continue
+          </p>
         </div>
       )}
     </div>

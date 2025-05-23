@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children } = {}) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('user');
@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
     navigate('/login');
   };
   
