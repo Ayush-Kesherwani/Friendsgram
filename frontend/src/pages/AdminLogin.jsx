@@ -22,19 +22,19 @@ const AdminLogin = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-80">
-        <h2 className="text-2xl font-bold mb-4 text-center">Admin Login</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center text-black">Admin Login</h2>
         {error && <p className="text-red-500 mb-2">{error}</p>}
         <input
           type="email"
           placeholder="Email"
-          className="w-full p-2 border mb-2 rounded"
+          className="w-full p-2 border mb-2 rounded text-black"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-2 border mb-4 rounded"
+          className="w-full p-2 border mb-4 rounded text-black"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

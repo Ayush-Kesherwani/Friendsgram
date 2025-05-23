@@ -29,14 +29,14 @@ const ChangePassword = () => {
       <input
         type="password"
         placeholder="Current Password"
-        className="w-full p-2 border mb-2"
+        className="w-full p-2 border mb-2 text-black"
         value={currentPassword}
         onChange={e => setCurrentPassword(e.target.value)}
       />
       <input
         type="password"
         placeholder="New Password"
-        className="w-full p-2 border mb-2"
+        className="w-full p-2 border mb-2 text-black"
         value={newPassword}
         onChange={e => setNewPassword(e.target.value)}
       />
