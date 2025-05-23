@@ -42,7 +42,7 @@ router.post('/upload-profile-pic/:id', upload.single('profilePic'), async (req, 
   }
 });
 
-router.post('/change-password', protect, async (req, res) => {
+router.post('/api/users/change-password', protect, async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   try {
