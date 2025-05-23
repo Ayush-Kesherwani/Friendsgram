@@ -6,14 +6,15 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem('adminToken');
       try {
-        const res = await axios.get("/admin/users", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        console.log('Fetched users:', res.data);
         setUsers(res.data);
       } catch (err) {
-        console.error("Failed to fetch users", err);
+        console.error('Failed to fetch users', err);
       }
     };
     fetchUsers();
