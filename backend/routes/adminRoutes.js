@@ -25,7 +25,10 @@ router.post("/adminlogin", (req, res) => {
 
 router.get("/admin/users", verifyAdmin, async (req, res) => {
     const users = await User.find().select("-password");
-    res.json(users);
+    res.json([
+        { _id: '123', name: 'Alice', email: 'alice@example.com' },
+        ...
+      ]);
 });
   
 // Delete a user

@@ -8,7 +8,7 @@ const AdminDashboard = () => {
     const fetchUsers = async () => {
       const token = localStorage.getItem('adminToken');
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/admin/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log('Fetched users:', res.data);
