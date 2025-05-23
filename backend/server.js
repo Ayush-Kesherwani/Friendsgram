@@ -36,6 +36,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static('uploads'));
 app.use('/posts', commentRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/admin', authRoutes);
 
 // Connect DB and start server
 connectDB().then(() => {
