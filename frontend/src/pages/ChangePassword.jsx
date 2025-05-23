@@ -9,7 +9,7 @@ const ChangePassword = () => {
   const handleChangePassword = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/change-password`, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/change-password`, {
         currentPassword,
         newPassword,
       }, {
