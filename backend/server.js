@@ -10,6 +10,7 @@ import postRoutes from './routes/posts.js';
 import commentRoutes from './routes/comments.js';
 import messageRoutes from './routes/message.js';
 import verifyRoutes from './routes/verify.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -36,7 +37,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static('uploads'));
 app.use('/posts', commentRoutes);
 app.use('/api/messages', messageRoutes);
-app.use('/admin', authRoutes);
+app.use('/admin', adminRoutes);
 
 // Connect DB and start server
 connectDB().then(() => {
