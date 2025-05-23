@@ -61,6 +61,7 @@ const Navbar = () => {
             <>
               <Link to="/login" className="text-sm dark:text-white">Login</Link>
               <Link to="/register" className="text-sm dark:text-white">Register</Link>
+              <Link to="/adminlogin" className="text-sm dark:text-white">Admin</Link>
             </>
           )}
           <button onClick={toggleTheme} className="text-sm px-1 py-1 rounded bg-gray-200 dark:bg-gray-700 dark:text-white">

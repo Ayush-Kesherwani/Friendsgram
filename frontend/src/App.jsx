@@ -13,6 +13,8 @@ import CreatePost from './pages/CreatePost';
 import UserSearch from './pages/UserSearch';
 import OtherUserProfile from './pages/OtherUserProfile';
 import MessagesWrapper from './pages/MessagesWrapper';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 
 const App = () => {
   const { theme } = useTheme();
@@ -31,6 +33,8 @@ const App = () => {
         <Route path="/search" element={<UserSearch />} />
         <Route path="/profile/:id" element={<OtherUserProfile />} />
         <Route path="/messages/:id" element={<MessagesWrapper />} />
+        <Route path="/adminlogin" element={<AdminLogin />} />
+        <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
