@@ -11,9 +11,9 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/auth/admin/adminlogin', { email, password });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}api/auth/admin/adminlogin`, { email, password });
       localStorage.setItem('adminToken', res.data.token);
-      navigate('/admin/admindashboard');
+      navigate('/admindashboard');
     } catch (err) {
       setError('Invalid credentials');
     }
