@@ -26,7 +26,7 @@ router.get("/:postId/comments", async (req, res) => {
   try {
     const comments = await Comment.find({ postId: req.params.postId })
       .sort({ createdAt: 1 })
-      .populate("userId", "name"); // populate name only
+      .populate("userId", "name");
     res.status(200).json(comments);
   } catch (err) {
     res.status(500).json({ error: "Error fetching comments" });
