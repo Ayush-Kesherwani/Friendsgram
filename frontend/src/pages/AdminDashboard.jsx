@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem("adminToken");
     try {
-      await axios.delete(`/admin/users/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/auth/admin/users/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(users.filter((user) => user._id !== id));
