@@ -165,7 +165,7 @@ const Home = ({ currentUserId }) => {
                             </span>{" "}
                             {c.text}
                           </p>
-                          {String(c.userId?._id) === String(currentUserId) && (
+                          {String(c.userId?._id || c.userId) === String(currentUserId) && (
                             <button
                               onClick={() =>
                                 handleDeleteComment(c._id, post._id)
