@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 4000;
 
 const allowedOrigins = [
   "https://friendsgram.vercel.app",
-  "http://localhost:3000",
+  "http://localhost:4000",
 ];
 
 const corsOptions = {
