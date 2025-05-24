@@ -49,6 +49,10 @@ router.post('/change-password', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
 
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: 'Current password is incorrect' });
@@ -64,6 +68,7 @@ router.post('/change-password', protect, async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 router.get("/search", async (req, res) => {
   const query = req.query.q;
