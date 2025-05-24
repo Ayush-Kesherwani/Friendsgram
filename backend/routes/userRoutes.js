@@ -82,11 +82,11 @@ router.get("/search", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  const user = await User.findById(req.params.id);
-  if (!user) return res.status(404).json({ error: "User not found" });
-  res.json(user);
-});
+// router.get("/:id", async (req, res) => {
+//   const user = await User.findById(req.params.id);
+//   if (!user) return res.status(404).json({ error: "User not found" });
+//   res.json(user);
+// });
 
 router.put("/edit/:id", protect, updateProfile);
 router.put("/follow/:id", protect, followUser);
