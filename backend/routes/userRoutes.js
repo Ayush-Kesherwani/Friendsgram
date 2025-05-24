@@ -4,6 +4,7 @@ import { extname } from "path";
 import { getUserById, updateProfilePic, followUser, unfollowUser, updateProfile } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import User from "../models/User.js";
+import bcrypt from "bcryptjs";
 
 const router = Router();
 
@@ -82,16 +83,16 @@ router.get("/search", async (req, res) => {
   }
 });
 
-// router.get("/:id", async (req, res) => {
-//   const user = await User.findById(req.params.id);
-//   if (!user) return res.status(404).json({ error: "User not found" });
-//   res.json(user);
-// });
 
 router.put("/edit/:id", protect, updateProfile);
 router.put("/follow/:id", protect, followUser);
 router.put("/unfollow/:id", protect, unfollowUser);
 
+// router.get("/:id", async (req, res) => {
+//   const user = await User.findById(req.params.id);
+//   if (!user) return res.status(404).json({ error: "User not found" });
+//   res.json(user);
+// });
 router.get("/:id", getUserById);
 
 export default router;
