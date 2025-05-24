@@ -7,7 +7,7 @@ const router = Router();
 
 const ADMIN = {
   email: "ayush@friendsgram.com",
-  password: "admin123",
+  password: process.env.ADMIN_PASSWORD,
 };
 
 router.post("/adminlogin", (req, res) => {
